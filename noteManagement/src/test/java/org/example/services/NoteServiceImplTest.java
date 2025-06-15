@@ -42,8 +42,8 @@ public class NoteServiceImplTest {
         String userId = user.getId();
 
         AddNoteRequest addNoteRequest = new AddNoteRequest();
-        addNoteRequest.setTitle("badafeez");
-        addNoteRequest.setContent("big baeebii");
+        addNoteRequest.setTitle("Boy are sucm");
+        addNoteRequest.setContent("i am soo tired");
         addNoteRequest.setUserId(userId);
 
         AddNoteResponse response = noteService.addNote(addNoteRequest);
@@ -69,7 +69,7 @@ public class NoteServiceImplTest {
 
         UpdateNoteRequest updateNoteRequest = new UpdateNoteRequest();
         updateNoteRequest.setTitle("sweet boy");
-        updateNoteRequest.setContent("afeez must be a bad boii😂😂😂");
+        updateNoteRequest.setContent("my shayala must be a bad boii😂😂😂");
         updateNoteRequest.setUserId(userId);
         updateNoteRequest.setNoteId(noteId);
 

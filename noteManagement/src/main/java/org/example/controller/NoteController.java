@@ -30,14 +30,6 @@ public class NoteController {
         }
     }
     @PatchMapping("/{id}")
-//    public ResponseEntity<?> updateNote(@PathVariable String id, @RequestBody UpdateNoteRequest updateNoteRequest) {
-//        try{
-//            updateNoteRequest.setNoteId(id);
-//            return new ResponseEntity<>(noteService.updateNote(updateNoteRequest), HttpStatus.OK);
-//        } catch (Exception e){
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-//        }
-//    }
     public ResponseEntity<UpdateNoteResponse> updateNote(@PathVariable("id") String noteId, @RequestBody UpdateNoteRequest updateNoteRequest) {
         updateNoteRequest.setNoteId(noteId);
         UpdateNoteResponse response = noteService.updateNote(updateNoteRequest);
