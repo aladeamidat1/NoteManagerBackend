@@ -8,4 +8,5 @@ import lombok.Setter;
 public class AddNoteResponse {
 
     private String message;
+    private String noteId;
 }

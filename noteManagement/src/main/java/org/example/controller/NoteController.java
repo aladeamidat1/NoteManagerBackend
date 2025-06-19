@@ -33,7 +33,7 @@ public class NoteController {
     public ResponseEntity<UpdateNoteResponse> updateNote(@PathVariable("id") String noteId, @RequestBody UpdateNoteRequest updateNoteRequest) {
         updateNoteRequest.setNoteId(noteId);
         UpdateNoteResponse response = noteService.updateNote(updateNoteRequest);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(noteService.updateNote(updateNoteRequest));
     }
 
     @GetMapping("/users/{userId}/notes")
@@ -42,10 +42,11 @@ public class NoteController {
     }
 
 
-
     @DeleteMapping("/{noteId}")
-    public ResponseEntity<String> deleteNote(@PathVariable String noteId, @RequestHeader("userId") String userId) {
-        noteService.deleteNote(noteId, userId);
+    public ResponseEntity<String> deleteNote(
+            @PathVariable("noteId") String noteId,
+            @RequestHeader("userId") String userId) {
+            noteService.deleteNote(noteId, userId);
         return ResponseEntity.ok("Note deleted successfully");
     }
 

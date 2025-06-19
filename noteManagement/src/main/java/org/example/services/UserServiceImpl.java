@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
         user.setName(createUserRequest.getName());
         userRepository.save(user);
         CreateUserResponse response = new CreateUserResponse();
-        response.setMessage("account created successfully");
+        response.setMessage("account created successfully pls proceed to login");
         return response;
     }
 
@@ -37,15 +37,13 @@ public class UserServiceImpl implements UserService {
         if (isInvalidInput(username, password)) {
             return buildResponse("Invalid username or password", "");
         }
-
         User user = userRepository.findByUsername(username.trim());
         if (user == null || !user.getPassword().equals(password)) {
-            return buildResponse("Invalid username or password", "");
+            return buildResponse("Invalid username or password", "" );
         }
 
         return buildResponse("Account logged in successfully", user.getId());
     }
-
 
     private boolean isInvalidInput(String username, String password) {
         return username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty();

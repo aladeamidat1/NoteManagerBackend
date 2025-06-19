@@ -9,7 +9,10 @@ import org.example.dto.request.UpdateNoteRequest;
 import org.example.dto.response.AddNoteResponse;
 import org.example.dto.response.UpdateNoteResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,23 +45,13 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public UpdateNoteResponse updateNote(UpdateNoteRequest updateNoteRequest) {
-        System.out.println(updateNoteRequest.getUserId());
-        System.out.println(updateNoteRequest.getNoteId());
-        // First verify the user exists
-        userRepository.findById(updateNoteRequest.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Find the note by its ID (not user ID)
         Note note = noteRepository.findById(updateNoteRequest.getNoteId())
                 .orElseThrow(() -> new RuntimeException("Note not found"));
 
-        // Verify the note belongs to the user
-        if (!note.getUserId().equals(updateNoteRequest.getUserId())) {
-            throw new RuntimeException("Note does not belong to user");
-        }
-
-        note.setTitle(updateNoteRequest.getTitle());
-        note.setContent(updateNoteRequest.getContent());
+        if(updateNoteRequest.getTitle() != null) note.setTitle(updateNoteRequest.getTitle());
+        if(updateNoteRequest.getContent() != null) note.setContent(updateNoteRequest.getContent());
         note.setUpdatedAt(LocalDateTime.now());
 
         noteRepository.save(note);
@@ -69,21 +62,18 @@ public class NoteServiceImpl implements NoteService {
     public List<Note> getNotesByUser(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
         return noteRepository.findByUserId(userId);
     }
 
 
     @Override
-    public void deleteNote(String noteId, String userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+   public void deleteNote(String noteId, String userId) {
         Note note = noteRepository.findById(noteId)
                 .orElseThrow(() -> new RuntimeException("Note not found"));
         if (!note.getUserId().equals(userId)) {
             throw new RuntimeException("Note does not belong to user");
-        }
-        noteRepository.deleteById(noteId);
+       }
+       noteRepository.deleteById(noteId);
     }
 
     private AddNoteResponse buildAddNoteResponse() {
